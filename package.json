@@ -5,8 +5,7 @@
   "main": "xml-validate.js",
   "dependencies": {
     "async": "^1.5.2",
-    "libxml-xsd": "^0.5.2",
-    "xsd-schema-validator": "^0.3.1"
+    "libxml-xsd": "^0.5.2"
   },
   "devDependencies": {},
   "scripts": {
