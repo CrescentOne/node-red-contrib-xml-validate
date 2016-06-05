@@ -1,0 +1,47 @@
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="xml-validate">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row node-input-filename">
+         <label for="node-input-filename"><i class="fa fa-file"></i> Xsd schema</label>
+         <input type="text" id="node-input-filename" placeholder="Xsd schema">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="xml-validate">
+    <p>This node check the content in msg.payload for a valid xml according the xsd schema provided.</p>
+    <p>If valid, the xml content is redirect to first output and nothing to the second one.</p>
+    <p>If not valid, then redirects the validation erros to second output and the first one not fires.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('xml-validate', {
+        category: 'function',
+        color: '#fdeea2',
+        defaults: {
+            name: {value: ""},
+            filename: {value: "node_modules\\node-red-contrib-xml-validate\\example.xsd"}
+        },
+        inputs: 1,
+        outputs: 3,
+        icon: "switch.png",
+        align: 'left',
+        paletteLabel: "xml-validate",
+        label: function () {
+            return (this.name || "validate xml");
+        }
+    });
+</script>
