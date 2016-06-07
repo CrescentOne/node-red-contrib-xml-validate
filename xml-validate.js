@@ -13,8 +13,7 @@
 module.exports = function (RED) {
     var RED = require(process.env.NODE_RED_HOME+"/red/red");    
     var util = require('util');
-    var async = require('async');
-    var libxml = require('libxml-xsd');
+    var validator = require('xsd-schema-validator');
 
     function xmlvalidate(config) {
         RED.nodes.createNode(this, config);
@@ -29,47 +28,23 @@ module.exports = function (RED) {
 
             //var xml = "<?xml version=\"1.0\"?>\r\n<note>\r\n  <to>Tove<\/to>\r\n  <froms>Jani<\/from>\r\n  <heading>Reminder<\/heading>\r\n  <body>Don\'t forget me this weekend!<\/body>\r\n<\/note>";
 
-            async.waterfall([
-              function load_schema(next) {
-
-                libxml.parseFile(node.filename, function(err, schema){
-                  if (err) {
-                    next({ _msgid: msg._msgid, payload: { result: err }});
-                  } else {
-                    next(null, { schema: schema, message: msg});
-                  }
-
-                });
-              }, function parse_xml(data, next) {
-                  data.schema.validate(data.message.payload, function(err, validation){
-                    // err contains any technical error 
-                    // validationError is an array, null if the validation is ok
-                    var msgs = [];
-
-                    if (err || validation) {
-                    
-                      msgs.push(null);
-                      msgs.push(data.message);
-                      msgs.push({ _msgid: data.message._msgid, payload: { result: err, validation: validation }});
-                    
-                    } else {
-
-                      msgs.push(data.message);
-                      msgs.push(null);
-                      msgs.push(null);
-
-                    }
-                      
-                    node.send(msgs);
-                  });                     
-              }
-            ], function(err) {
+            validator.validateXML(msg.payload, node.filename, function(err, result) {
               var msgs = [];
 
-              msgs.push(null);
-              msgs.push(null);
-              msgs.push(err);
+              if (err) {
+              
+                msgs.push(null);
+                msgs.push(msg);
+                msgs.push({ _msgid: msg._msgid, payload: result});
+              
+              } else {
 
+                msgs.push(msg);
+                msgs.push(null);
+                msgs.push(null);
+
+              }
+                
               node.send(msgs);
             });
 

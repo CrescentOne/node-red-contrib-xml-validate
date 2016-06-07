@@ -1,5 +1,5 @@
 node-red-contrib-xml-validate
-===========================
+=============================
 
 [![NPM](https://nodei.co/npm/node-red-contrib-xml-validate.png)](https://nodei.co/npm/node-red-contrib-xml-validate/)
 
