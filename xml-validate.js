@@ -31,18 +31,18 @@ module.exports = function (RED) {
             validator.validateXML(msg.payload, node.filename, function(err, result) {
               var msgs = [];
 
-              if (err) {
+              if (err === null || err === undefined || Object.keys(err).length == 0) {
               
-                msgs.push(null);
                 msgs.push(msg);
-                msgs.push({ _msgid: msg._msgid, payload: result});
-              
+                msgs.push(null);
+                msgs.push(null);
+
               } else {
 
+                msgs.push(null);
                 msgs.push(msg);
-                msgs.push(null);
-                msgs.push(null);
-
+                msgs.push({ _msgid: msg._msgid, payload: { error: err, messages: result || [] }});
+              
               }
                 
               node.send(msgs);
