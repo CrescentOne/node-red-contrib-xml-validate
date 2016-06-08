@@ -31,18 +31,22 @@ module.exports = function (RED) {
             validator.validateXML(msg.payload, node.filename, function(err, result) {
               var msgs = [];
 
-              if (err === null || err === undefined || Object.keys(err).length == 0) {
+              if (err) {
               
-                msgs.push(msg);
-                msgs.push(null);
-                msgs.push(null);
-
-              } else {
+                node.log('XML INVALID for file ' + (msg.fileName || '') + ', result: -->' + err + '<--');
 
                 msgs.push(null);
                 msgs.push(msg);
                 msgs.push({ _msgid: msg._msgid, payload: { error: err, messages: result || [] }});
               
+              } else {
+
+                node.log('XML VALID for file ' + (msg.fileName || '') + ', result: -->' + err + '<--');
+
+                msgs.push(msg);
+                msgs.push(null);
+                msgs.push(null);
+
               }
                 
               node.send(msgs);
