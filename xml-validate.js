@@ -33,15 +33,11 @@ module.exports = function (RED) {
 
               if (err) {
               
-                node.log('XML INVALID for file ' + (msg.fileName || '') + ', result: -->' + err + '<--');
-
                 msgs.push(null);
                 msgs.push(msg);
-                msgs.push({ _msgid: msg._msgid, payload: { error: err, messages: result || [] }});
+                msgs.push({ _msgid: msg._msgid, payload: result });
               
               } else {
-
-                node.log('XML VALID for file ' + (msg.fileName || '') + ', result: -->' + err + '<--');
 
                 msgs.push(msg);
                 msgs.push(null);
