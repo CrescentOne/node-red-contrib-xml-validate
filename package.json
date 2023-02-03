@@ -1,16 +1,33 @@
 {
-    "name": "node-red-contrib-xml-validate",
-    "version": "0.2.0",
-    "description": "Node-RED node node to validate xml content using xsd-schema-validator.",
-    "main": "xml-validate.js",
-    "node-red": {
-        "nodes": {
-            "xml-validate": "xml-validate.js"
-        }
-    },
-    "author": "CrescentOne, Xander van Hunen",
-    "license": "Apache-2.0",
-    "dependencies": {
-        "xsd-schema-validator": "^0.7.0"
+  "name": "red-contrib-xml-validate",
+  "version": "0.2.0",
+  "description": "Node-RED node node to validate xml content using xsd-schema-validator.",
+  "main": "xml-validate.js",
+  "node-red": {
+    "nodes": {
+      "xml-validate": "xml-validate.js"
     }
+  },
+  "author": "CrescentOne, Xander van Hunen",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "xsd-schema-validator": "^0.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrescentOne/node-red-contrib-xml-validate.git"
+  },
+  "keywords": [
+    "xml",
+    "xsd",
+    "validator"
+  ],
+  "bugs": {
+    "url": "https://github.com/CrescentOne/node-red-contrib-xml-validate/issues"
+  },
+  "homepage": "https://github.com/CrescentOne/node-red-contrib-xml-validate#readme"
 }
