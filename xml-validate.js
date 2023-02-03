@@ -10,51 +10,59 @@
   limitations under the License.
 */
 
-module.exports = function (RED) {
-    var RED = require(process.env.NODE_RED_HOME+"/red/red");    
-    var util = require('util');
-    var validator = require('xsd-schema-validator');
+module.exports = (RED) =>
+{
+    const validator = require('xsd-schema-validator');
 
     function xmlvalidate(config) {
         RED.nodes.createNode(this, config);
-        this.name = config.name;  
-        this.filename = config.filename;  
+        this.name = config.name;
+        this.xsd = config.xsd;
 
-        var node = this;
-        node.on("input", function(msg) {
-          try {
+        let node = this;
+        node.on("input", (msg) =>
+        {
+            try
+            {
+                validator.validateXML(msg.payload, msg.xsd ?? node.xsd, (err, result) =>
+                {
+                    if (err)
+                    {
+                        this.status(
+                            {
+                                fill:"yellow",
+                                shape:"dot",
+                                text:"invalid"
+                            });
 
-            //var xsd = "<?xml version=\"1.0\"?>\r\n<xs:schema xmlns:xs=\"http:\/\/www.w3.org\/2001\/XMLSchema\"\r\ntargetNamespace=\"http:\/\/www.w3schools.com\"\r\nxmlns=\"http:\/\/www.w3schools.com\"\r\nelementFormDefault=\"qualified\">\r\n\r\n<xs:element name=\"note\">\r\n  <xs:complexType>\r\n    <xs:sequence>\r\n      <xs:element name=\"to\" type=\"xs:string\"\/>\r\n      <xs:element name=\"from\" type=\"xs:string\"\/>\r\n      <xs:element name=\"heading\" type=\"xs:string\"\/>\r\n      <xs:element name=\"body\" type=\"xs:string\"\/>\r\n    <\/xs:sequence>\r\n  <\/xs:complexType>\r\n<\/xs:element>\r\n\r\n<\/xs:schema>";
+                        node.send([null, msg, { _msgid: msg._msgid, error: err.msg, payload: result }]);
+                    }
+                    else
+                    {
+                        this.status(
+                            {
+                                fill:"green",
+                                shape:"dot",
+                                text:"valid"
+                            });
+                        
+                        node.send([msg, null, null]);
+                    }
+                });
 
-            //var xml = "<?xml version=\"1.0\"?>\r\n<note>\r\n  <to>Tove<\/to>\r\n  <froms>Jani<\/from>\r\n  <heading>Reminder<\/heading>\r\n  <body>Don\'t forget me this weekend!<\/body>\r\n<\/note>";
-
-            validator.validateXML(msg.payload, node.filename, function(err, result) {
-              var msgs = [];
-
-              if (err) {
-              
-                msgs.push(null);
-                msgs.push(msg);
-                msgs.push({ _msgid: msg._msgid, payload: result });
-              
-              } else {
-
-                msgs.push(msg);
-                msgs.push(null);
-                msgs.push(null);
-
-              }
-                
-              node.send(msgs);
-            });
-
-          } catch(err) {
-              node.error(err.message);
-          }
-      });                
+            }
+            catch (err)
+            {
+                node.error(err.message);
+                this.status(
+                    {
+                        fill:"red",
+                        shape:"dot",
+                        text:"error"
+                    });
+            }
+        });
     }
 
-    //
     RED.nodes.registerType("xml-validate", xmlvalidate);
-
 }
