@@ -28,17 +28,45 @@ module.exports = (RED) =>
                 {
                     if (err)
                     {
-                        this.status(
-                            {
-                                fill:"yellow",
-                                shape:"dot",
-                                text:"invalid"
-                            });
+                        // check type of fail
 
-                        node.send([null, msg, { _msgid: msg._msgid, error: err.msg, payload: result }]);
+
+                            switch (result.result)
+                            {
+                                case "FATAL_ERROR":
+                                    this.status(
+                                        {
+                                            fill:"red",
+                                            shape:"dot",
+                                            text:"error"
+                                        });
+                                    node.send([null, null, msg]);
+                                    break;
+                                case "WITH_ERRORS":
+                                    this.status(
+                                        {
+                                            fill:"yellow",
+                                            shape:"dot",
+                                            text:"invalid"
+                                        });
+
+                                    node.send([null, msg, null]);
+                                    break
+                                default:
+                                    this.status(
+                                        {
+                                            fill:"red",
+                                            shape:"dot",
+                                            text:"error"
+                                        });
+                                    node.error('unknown errors, please copy this message and make an issue at: https://github.com/CrescentOne/node-red-contrib-xml-validate/issues')
+                                    node.send(null, null, msg);
+                                    break;
+                            }
                     }
                     else
                     {
+                        // succes
                         this.status(
                             {
                                 fill:"green",
