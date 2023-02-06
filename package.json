@@ -1,6 +1,6 @@
 {
-  "name": "red-contrib-xml-validate",
-  "version": "0.2.0",
+  "name": "@crescentone/node-red-contrib-xml-validatation",
+  "version": "0.2.1",
   "description": "Node-RED node node to validate xml content using xsd-schema-validator.",
   "main": "xml-validate.js",
   "node-red": {
