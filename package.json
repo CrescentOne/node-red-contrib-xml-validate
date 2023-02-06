@@ -24,7 +24,8 @@
   "keywords": [
     "xml",
     "xsd",
-    "validator"
+    "validator",
+    "node-red"
   ],
   "bugs": {
     "url": "https://github.com/CrescentOne/node-red-contrib-xml-validate/issues"
