@@ -28,9 +28,11 @@ module.exports = (RED) =>
                 {
                     if (err)
                     {
+                        // give msg a new property to display errors
+                        msg.xml_error = err;
+                        msg.xml_result = result.result;
+
                         // check type of fail
-
-
                             switch (result.result)
                             {
                                 case "FATAL_ERROR":
