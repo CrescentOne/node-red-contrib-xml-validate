@@ -30,3 +30,9 @@ A Node-RED node to validate XML strings against a specified XSD.
 ## Contributing
 
 Feel free to contribute to this project by submitting a pull request or opening an issue.
+
+### CrescentOne Fork
+
+For us at CrescentOne the existing Node-RED XML validator node was not exactly what we needed. We ended up with errors that we could not solve using the node. We managed to work around of the isseus, but could not do this evolving our solution. We had to decide. Are we going to develope a new node? Or create a fork, respecting the Apache License 2.0 and send our thanks to @aleshh for the work done in his earlier project. We decided to choose the latter.
+Special thanks to our young tallented intern Xander van Hunen and our developer Ajan Renders for taking this first step.
+In line with the invitation of the original creator of this node - feel free to contribute or comment on the project, by submitting a pull request or opening an issue. Cheers. AVS.
